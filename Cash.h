@@ -1,5 +1,5 @@
 /*
-	›kra Selenay Y˝lmaz - 152120231102
+	√ùkra Selenay Y√Ωlmaz - 152120231102
 	20 / 11 / 2025
 */
 
@@ -11,7 +11,7 @@
 class Cash : public Payment{
 public:
 	Cash(double amount = 0.0);
-	void performPayment();
+	void performPayment() override;
 };
 #endif
 
