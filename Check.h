@@ -15,7 +15,7 @@ private:
 	string bankID;
 
 public:
-	Chech(double amount = 0.0,
+	Check(double amount = 0.0,
 		const string& name = "",
 		const string& bankID = "");
 	void performPayment() override;

@@ -1,10 +1,4 @@
 <<<<<<< HEAD
-/*				Berfin SELVÝ		-		152120241030
-                25.11.2025		Customer head  dosyasý							*/
-
-=======
-<<<<<<< HEAD
->>>>>>> ac6e212f065372984a87a8d900b2218b72453139
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 #include <string>
@@ -42,8 +36,6 @@ protected:
 
 #endif
 
-<<<<<<< HEAD
-=======
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
@@ -91,5 +83,4 @@ public:
 };
 
 #endif 
->>>>>>> ac6e212f065372984a87a8d900b2218b72453139
 
