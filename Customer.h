@@ -35,7 +35,7 @@ protected:
 }; 
 
 #endif
-=======
+
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
@@ -83,4 +83,4 @@ public:
 };
 
 #endif 
->>>>>>> 714b09139d5f8633cb87fd5c5ca03e3f7dec6487
+
