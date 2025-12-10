@@ -7,6 +7,8 @@
 class Payment {
 private:
     double amount;
+    friend class Cash;
+    friend class Check;
 
 public:
     Payment(double amount = 0.0);

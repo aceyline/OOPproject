@@ -1,5 +1,5 @@
 // main.cpp
-
+#include <iostream>
 #include "Menu.h"
 #include <cstdlib> // Konsolu temizlemek için (system fonksiyonu)
 
