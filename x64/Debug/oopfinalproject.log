@@ -1,0 +1,4 @@
+﻿  BooksStoreApp.cpp
+C:\Users\cfryl\source\repos\oopfinal\oopfinal\BooksStoreApp.cpp(80,39): warning C4267: '=': 'size_t' - 'long' dönüşümü; veri kaybı olabilir
+C:\Users\cfryl\source\repos\oopfinal\oopfinal\BooksStoreApp.cpp(134,36): warning C4267: '=': 'size_t' - 'int' dönüşümü; veri kaybı olabilir
+  oopfinalproject.vcxproj -> C:\Users\cfryl\source\repos\oopfinalproject\x64\Debug\oopfinalproject.exe
