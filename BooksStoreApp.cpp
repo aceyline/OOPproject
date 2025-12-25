@@ -3,6 +3,9 @@
 #include <string>
 #include "Customer.h"
 #include "Product.h"
+#include "Book.h"       
+#include "Magazine.h"   
+#include "MusicCD.h"   
 #include "ShoppingCart.h"
 
 using namespace std;
@@ -112,7 +115,7 @@ void customerMenuLoop(vector<Customer>& customers) {
 }
 
 
-void itemMenuLoop(vector<Product>& products) {
+void itemMenuLoop(vector<Product*>& products) {
     Menu itemMenu("Urun Menu");
     itemMenu.addOption("Yeni urun ekle");
     itemMenu.addOption("Urunleri listele");
@@ -124,35 +127,97 @@ void itemMenuLoop(vector<Product>& products) {
         choice = itemMenu.getChoice();
 
         switch (choice) {
-        case 1:
+        case 1: 
         {
-            cout << "\nUrun ekleme...\n";
+            cout << "\nEklemek istediginiz urun turunu secin:\n";
+            cout << "1. Book (Kitap)\n";
+            cout << "2. Magazine (Dergi)\n";
+            cout << "3. MusicCD (Muzik CD)\n";
+            cout << "Secim: ";
+            int typeChoice;
+            cin >> typeChoice;
+
+            if (typeChoice < 1 || typeChoice > 3) {
+                cout << "Gecersiz urun tipi secimi! Ana menuye donuluyor.\n";
+                break;
+            }
+
             int id_p;
             string name_p;
-            double price;
-            cin.ignore();
-            id_p = products.size() + 1;
-            cout << "Isim:"; getline(cin, name_p);
-            //cout << "ID: "; cin >> id_p;  //Eklemeyedebiliriz.otomatik direkt          
-            cout << "Fiyat:"; cin >> price;
+            double price_p;
 
-            Product newProduct(id_p, name_p, price);
-            products.push_back(newProduct);
+            cout << "\n-- Ortak Bilgiler --\n";
+            cout << "ID Giriniz: ";
+            cin >> id_p;
+            
+            cout << "Urun Ismi: ";
+            cin.ignore(); 
+            getline(cin, name_p); 
+            
+            cout << "Fiyat: ";
+            cin >> price_p;
 
-            cout << "\nUrun sisteme kaydedildi! ID:" << id_p << "\n";
+            
+            if (typeChoice == 1) { 
+                string author, publisher;
+                int page;
+                
+                cout << "-- Kitap Detaylari --\n";
+                cout << "Yazar (Author): "; 
+                cin.ignore();
+                getline(cin, author);
+                
+                cout << "Yayinevi (Publisher): "; 
+                getline(cin, publisher);
+                
+                cout << "Sayfa Sayisi: "; 
+                cin >> page;
+
+                products.push_back(new Book(id_p, name_p, price_p, author, publisher, page));
+                cout << ">> Kitap basariyla eklendi!\n";
+            }
+            else if (typeChoice == 2) { 
+                int issue;
+                string type;
+                
+                cout << "-- Dergi Detaylari --\n";
+                cout << "Sayi (Issue): "; 
+                cin >> issue;
+                
+                cout << "Tur (Type): "; 
+                cin.ignore(); 
+                getline(cin, type);
+
+                products.push_back(new Magazine(id_p, name_p, price_p, issue, type));
+                cout << ">> Dergi basariyla eklendi!\n";
+            }
+            else if (typeChoice == 3) { 
+                string singer, type;
+                
+                cout << "-- CD Detaylari --\n";
+                cout << "Sarkici (Singer): "; 
+                cin.ignore(); 
+                getline(cin, singer);
+                
+                cout << "Muzik Turu (Type): "; 
+                getline(cin, type);
+
+                products.push_back(new MusicCD(id_p, name_p, price_p, singer, type));
+                cout << ">> Muzik CD basariyla eklendi!\n";
+            }
             break;
         }
-            
-        
+
         case 2:
         {
-            cout << "\nUrun listeleme...\n";
-            if (products.empty()) { cout << "Urun kaydi bulunamadý.\n"; }
+            cout << "\n--- URUN LISTESI ---\n";
+            if (products.empty()) {
+                cout << "Kayitli urun yok.\n";
+            }
             else {
                 for (const auto& prod : products) {
-                    cout << "ID: " << prod.getID()
-                        << "| Isim: " << prod.getName()
-                        << "| Fiyat: \n" << prod.getPrice() << endl;
+                    prod->printProperties();
+                    cout << "----------------------\n";
                 }
             }
             break;
@@ -166,20 +231,19 @@ void itemMenuLoop(vector<Product>& products) {
         }
     } while (choice != 3);
 }
-
-void shoppingMenuLoop(vector<Customer>& customers, vector<Product>& products) {
+void shoppingMenuLoop(vector<Customer>& customers, vector<Product*>& products) {
     Menu shopMenu("Shopping Menu");
-    shopMenu.addOption("Login");
-    shopMenu.addOption("Add Product");
-    shopMenu.addOption("Remove Product");
-    shopMenu.addOption("List All Products");
-    shopMenu.addOption("List Shopping Cart");
-    shopMenu.addOption("Show Bonus");
-    shopMenu.addOption("Use Bonus");
-    shopMenu.addOption("Place Order");
-    shopMenu.addOption("Cancel Order");
-    shopMenu.addOption("Show Invoice");
-    shopMenu.addOption("Quit (Back)");
+    shopMenu.addOption("Giris");
+    shopMenu.addOption("Urun Ekle");
+    shopMenu.addOption("Urun Sil");
+    shopMenu.addOption("Tum Urunleri Listele");
+    shopMenu.addOption("Alisveris Sepetini Listele ");
+    shopMenu.addOption("Bonusu Goster");
+    shopMenu.addOption("Bonus Kullan");
+    shopMenu.addOption("Siparis Ver");
+    shopMenu.addOption("Siparis Ä°ptal");
+    shopMenu.addOption("Faturayi Goster");
+    shopMenu.addOption("Cikis (Geri)");
 
     int choice;
     Customer* currentCustomer = nullptr;
@@ -231,8 +295,8 @@ void shoppingMenuLoop(vector<Customer>& customers, vector<Product>& products) {
 
             cout << "\nUrun listeleniyor...\n";
             for (const auto& p : products) {
-                cout << "ID: " << p.getID() << " - " << p.getName()
-                    << " (" << p.getPrice() << " TL)\n";
+                cout << "ID: " << p->getID() << " - " << p->getName()
+                    << " (" << p->getPrice() << " TL)\n";
             }
 
             cout << "\nSepete eklemek istediginiz Urun ID'sini girin: ";
@@ -241,9 +305,9 @@ void shoppingMenuLoop(vector<Customer>& customers, vector<Product>& products) {
 
             bool productFound = false;
             for (auto& p : products) {
-                if (p.getID() == targetId) {
-                    myCart.addProduct(&p);
-                    cout << p.getName() << " sepete eklendi.\n";
+                if (p->getID() == targetId) {
+                    myCart.addProduct(p);
+                    cout << p->getName() << " sepete eklendi.\n";
                     productFound = true;
                     break;
                 }
@@ -265,8 +329,8 @@ void shoppingMenuLoop(vector<Customer>& customers, vector<Product>& products) {
 
             bool found = false;
             for (auto& p : products) {
-                if (p.getID() == pid) {
-                    myCart.removeProduct(&p);
+                if (p->getID() == pid) {
+                    myCart.removeProduct(p);
                     cout << "Islem tamamlandi.\n";
                     found = true;
                     break;
@@ -280,8 +344,8 @@ void shoppingMenuLoop(vector<Customer>& customers, vector<Product>& products) {
         {
             cout << "\nTUM URUNLER\n";
             for (const auto& p : products) {
-                cout << "ID: " << p.getID() << " | " << p.getName()
-                    << " | " << p.getPrice() << " TL\n";
+                cout << "ID: " << p->getID() << " | " << p->getName()
+                    << " | " << p->getPrice() << " TL\n";
             }
             break;
         }
@@ -375,7 +439,13 @@ int main() {
     mainMenu.addOption("Cikis");
 
     vector<Customer> allCustomers;
-    vector<Product> allProducts;
+    vector<Product*> allProducts;
+
+    allProducts.push_back(new Book(101, "Sefiller", 75.50, "Victor Hugo", "Can Yayinlari", 1500));
+    allProducts.push_back(new Magazine(201, "Vogue", 50.0, 12, "Moda"));
+    allProducts.push_back(new MusicCD(301, "Thriller", 120.0, "Michael Jackson", "Pop"));
+    
+    cout << ">> Sistem baslangic verileriyle yuklendi.\n";
 
     int mainChoice;
 
@@ -397,6 +467,10 @@ int main() {
             break;
         case 4:
             cout << "Program sonlandiriliyor. Iyi gunler!\n";
+            for (auto p : allProducts) {
+                delete p;
+            }
+            allProducts.clear();
             break;
         default:
             cout << "Gecersiz secim, lutfen tekrar deneyin.\n";
