@@ -440,8 +440,10 @@ int main() {
 
     vector<Customer> allCustomers;
     vector<Product*> allProducts;
+    allCustomers.push_back(Customer(1001, "Selenay", "Istanbul", "555-111-2222", 0, "selenay@gmail.com", "selenay", "123"));
+    allCustomers.push_back(Customer(1002, "Rumeysa", "Ankara", "555-333-4444", 150, "rumeysa@hotmail.com", "rumeysa", "456"));
 
-    allProducts.push_back(new Book(101, "Sefiller", 75.50, "Victor Hugo", "Can Yayinlari", 1500));
+    allProducts.push_back(new Book(101, "Sefiller", 75.0, "Victor Hugo", "Can Yayinlari", 1500));
     allProducts.push_back(new Magazine(201, "Vogue", 50.0, 12, "Moda"));
     allProducts.push_back(new MusicCD(301, "Thriller", 120.0, "Michael Jackson", "Pop"));
     
